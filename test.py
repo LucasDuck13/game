@@ -1,39 +1,44 @@
 import noise
+#help(noise)
 import numpy as np
+from PIL import Image
 
-shape = (500, 500)
-scale = 100.0
-octaves = 6
-persistence = 0.5
-lacunarity = 2.0
-
-world = np.zeros(shape, dtype="<U100")
-for i in range(shape[0]):
-    for j in range(shape[1]):
-        world[i][j] = noise.pnoise2(i / scale,
-                                    j / scale,
-                                    octaves=octaves,
-                                    persistence=persistence,
-                                    lacunarity=lacunarity,
-                                    repeatx=500,
-                                    repeaty=500,
-                                    base=0)
+D = np.zeros((250, 250), dtype=float)
 
 
-def add_color(world):
-    color_world = np.zeros(world.shape+(3,))
-    for i in range(shape[0]):
-        for j in range(shape[1]):
-            if float(world[i][j]) < -0.05:
-                color_world[i][j] = "1"
-            elif float(world[i][j]) < 0.0:
-                color_world[i][j] = "2"
-            elif float(world[i][j]) < 1.0:
-                (color_world[i][j]) = "3"
+def fill(pf):
+    y = 0
+    x = 0
+    while y < 250:
+        while x < 250:
 
-    return color_world
+            r = noise.snoise2(x, y, octaves=5, persistence=1.5, lacunarity=0.5, repeatx=250, repeaty=250, base=16)
+            pf[y][x] = r
+            x = x + 1
+        x = 0
+        y = y + 1
 
 
-color_world = add_color(world)
+def edit(pf):
+    y = 0
+    x = 0
+    while y < 250:
+        while x < 250:
+            if pf[y][x] > 0.3333:
+                pf[y][x] = 3
+            elif pf[y][x] > -0.3333:
+                pf[y][x] = 2
+            elif pf[y][x] <= -0.3333:
+                pf[y][x] = 1
+            x = x + 1
+        x = 0
+        y = y + 1
 
-print(color_world)
+
+fill(D)
+
+print(D)
+edit(D)
+
+print(D)
+

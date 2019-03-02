@@ -1,10 +1,11 @@
-import random
 import numpy as np
-# import os
+import os
+import noise
 
 shape = (250, 250)
 playing_field = np.zeros(shape=(250, 250), dtype="<U100")
-
+x = 125
+y = 125
 
 def fill(pf):
     y = 0
@@ -12,8 +13,24 @@ def fill(pf):
     while y < 250:
         while x < 250:
 
-            r = random.randint(1, 3)
+            r = noise.snoise2(x, y, octaves=5, persistence=1.5, lacunarity=0.5, repeatx=250, repeaty=250, base=16)
             pf[y][x] = r
+            x = x + 1
+        x = 0
+        y = y + 1
+
+
+def edit(pf):
+    y = 0
+    x = 0
+    while y < 250:
+        while x < 250:
+            if pf[y][x] > "0.3":
+                pf[y][x] = "3"
+            elif pf[y][x] >= "-0.07":
+                pf[y][x] = "2"
+            else:
+                pf[y][x] = "1"
             x = x + 1
         x = 0
         y = y + 1
@@ -38,14 +55,38 @@ def fancy(pf):
 
 def render(pf, x, y):
     w = y
+    z = x
     while y < w+10:
-        print(pf.item(x, y)+pf.item(x+1, y)+pf.item(x+2, y)+pf.item(x+3, y)+pf.item(x+4, y)+pf.item(x+5, y) +
-              pf.item(x+6, y)+pf.item(x+7, y)+pf.item(x+8, y)+pf.item(x+9, y)+pf.item(x+10, y)+pf.item(x+11, y) +
-              pf.item(x+12, y)+pf.item(x+13, y)+pf.item(x+14, y)+pf.item(x+15, y)+pf.item(x+16, y) +
-              pf.item(x+17, y)+pf.item(x+18, y)+pf.item(x+19, y))
-        y = y + 1
 
+        while x < z + 40:
+            print(pf.item(x, y), end="", flush=True)
+            x = x + 1
+        y = y + 1
+        x = z
+        print()
 
 fill(playing_field)
+edit(playing_field)
 fancy(playing_field)
-render(playing_field, 125, 125)
+render(playing_field, x, y)
+
+
+def move(x, y, stop):
+    z = input()
+    if z == "up":
+        y = y+1
+    elif z == "up":
+        y = y-1
+    elif z == "up":
+        x = x+1
+    elif z == "up":
+        x = x-1
+    elif z == "stop":
+        stop = True
+    os.system('clear')
+    render(playing_field, x, y)
+    return x, y, stop
+
+
+while stop != True:
+    x, y, stop = move(x, y)
