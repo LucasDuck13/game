@@ -2,8 +2,11 @@ import numpy as np
 import os
 import noise
 
-# Alleen wanneer nog op pycharm, niet meer als terminal!!!!
-
+pycharm = input("pycharm? y/n")
+if pycharm == "y":
+    pycharm = True
+elif pycharm == "n"
+    pycharm = False
 
 def clear():
     pycharm = True
@@ -12,8 +15,6 @@ def clear():
     elif pycharm != True:
         os.system('cls' if os.name == 'nt' else 'clear')
 
-
-# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 stopped = False
 shape = (250, 250)
@@ -91,15 +92,15 @@ def move(x, y):
     z = input()
     if z == "up":
         y = y+1
-    elif z == "up":
+    elif z == "down":
         y = y-1
-    elif z == "up":
+    elif z == "right":
         x = x+1
-    elif z == "up":
+    elif z == "left":
         x = x-1
     elif z == "stop":
         stop = True
-    os.system("clear")
+    clear()
     render(playing_field, x, y)
     return x, y, stop
 
@@ -107,4 +108,4 @@ def move(x, y):
 while stopped != True:
     x, y, stopped = move(x, y)
     if stopped == True:
-        print(chr(27) + "[2J")
+        clear()
