@@ -2,6 +2,20 @@ import numpy as np
 import os
 import noise
 
+# Alleen wanneer nog op pycharm, niet meer als terminal!!!!
+
+
+def clear():
+    pycharm = True
+    if pycharm == True:
+        print('\n' * 80)
+    elif pycharm != True:
+        os.system('cls' if os.name == 'nt' else 'clear')
+
+
+# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+stopped = False
 shape = (250, 250)
 playing_field = np.zeros(shape=(250, 250), dtype="<U100")
 x = 125
@@ -65,13 +79,15 @@ def render(pf, x, y):
         x = z
         print()
 
+
 fill(playing_field)
 edit(playing_field)
 fancy(playing_field)
 render(playing_field, x, y)
 
 
-def move(x, y, stop):
+def move(x, y):
+    stop = False
     z = input()
     if z == "up":
         y = y+1
@@ -83,10 +99,12 @@ def move(x, y, stop):
         x = x-1
     elif z == "stop":
         stop = True
-    os.system('clear')
+    os.system("clear")
     render(playing_field, x, y)
     return x, y, stop
 
 
-while stop != True:
-    x, y, stop = move(x, y)
+while stopped != True:
+    x, y, stopped = move(x, y)
+    if stopped == True:
+        print(chr(27) + "[2J")
