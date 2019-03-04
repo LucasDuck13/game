@@ -2,10 +2,10 @@ import numpy as np
 import os
 import noise
 
-pycharm = input("pycharm? y/n")
+pycharm = input("pycharm? y/n ")
 if pycharm == "y":
     pycharm = True
-elif pycharm == "n"
+elif pycharm == "n":
     pycharm = False
 
 def clear():
@@ -19,8 +19,8 @@ def clear():
 stopped = False
 shape = (250, 250)
 playing_field = np.zeros(shape=(250, 250), dtype="<U100")
-x = 125
-y = 125
+x = 45
+y = 105
 
 def fill(pf):
     y = 0
@@ -71,10 +71,16 @@ def fancy(pf):
 def render(pf, x, y):
     w = y
     z = x
-    while y < w+10:
+    while y < w+41:
 
-        while x < z + 40:
-            print(pf.item(x, y), end="", flush=True)
+        while x < z + 161:
+            print((y+w)/2)
+            print((x+z)/2)
+            if pf[y][x] == pf[(y+w)/2][(x+z)/2]:
+                pf[y][x] = "\u001b[91mikwildood\033[30m"
+                print(pf[y][x], end="", flush=True)
+            else:
+                print(pf.item(x, y), end="", flush=True)
             x = x + 1
         y = y + 1
         x = z
@@ -105,7 +111,7 @@ def move(x, y):
     return x, y, stop
 
 
-while stopped != True:
+while stopped == False:
     x, y, stopped = move(x, y)
-    if stopped == True:
+    if stopped:
         clear()
