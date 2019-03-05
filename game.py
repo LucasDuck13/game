@@ -115,3 +115,5 @@ while stopped == False:
     x, y, stopped = move(x, y)
     if stopped:
         clear()
+
+
