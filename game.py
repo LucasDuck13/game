@@ -2,11 +2,7 @@ import numpy as np
 import os
 import noise
 
-pycharm = input("pycharm? y/n ")
-if pycharm == "y":
-    pycharm = True
-elif pycharm == "n":
-    pycharm = False
+pycharm = False
 
 def clear():
     pycharm = True
@@ -71,14 +67,16 @@ def fancy(pf):
 def render(pf, x, y):
     w = y
     z = x
+    temp = 0 #!!!!!!!!!!!
     while y < w+41:
 
         while x < z + 161:
-            print((y+w)/2)
-            print((x+z)/2)
-            if pf[y][x] == pf[(y+w)/2][(x+z)/2]:
-                pf[y][x] = "\u001b[91mikwildood\033[30m"
-                print(pf[y][x], end="", flush=True)
+            if pf[y][x] == pf[int((y+w)/2)][int((x+z)/2)] and temp<5:#!!!!!!!!
+                print(y, x, end="", flush=True)
+                print(w, z, end="", flush=True)
+                print("\u001b[91mX\033[30m", end="", flush=True)
+                temp = temp + 1
+            #!!!!!!!!!!
             else:
                 print(pf.item(x, y), end="", flush=True)
             x = x + 1
@@ -111,7 +109,7 @@ def move(x, y):
     return x, y, stop
 
 
-while stopped == False:
+while not stopped:
     x, y, stopped = move(x, y)
     if stopped:
         clear()
